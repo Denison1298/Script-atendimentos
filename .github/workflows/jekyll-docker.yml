@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script de atendimentos Liberação técnica</title>
+    <link rel="icon" href="https://cdn.7az.com.br/d1611e66-4224-4070-a693-c4921b7fb63a/7c73cbfd-ce62-48f4-826b-63893fcd5439.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 20px;
+            box-sizing: border-box;
+        }
+        .form-section hr {
+            margin: 20px 0;
+        }
+        .form-section button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .form-section button:hover {
+            background-color: #0056b3;
+        }
+        .message {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .message-area {
+            margin: 20px 0;
+        }
+        .message-area textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .message-area .copy-button {
+            display: block;
+            margin-top: 5px;
+        }
+        .notification {
+            display: none;
+            position: fixed;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+    </style>
+    <script>
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+        }
+
+        function hideNotification() {
+            const notification = document.getElementById('notification');
+            notification.style.display = 'none';
+        }
+
+        function copiarDados(formId, sectionMessage, footerMessage) {
+            const form = document.getElementById(formId);
+            let dados = `${sectionMessage}\n`;
+            const inputs = form.querySelectorAll('input');
+            
+            inputs.forEach(input => {
+                let value = input.value.trim() === '' ? 'S/N' : input.value;
+                dados += `${input.previousElementSibling.textContent} ${value}\n`;
+            });
+            
+            dados += `\n${footerMessage}`;
+            
+            navigator.clipboard.writeText(dados).then(() => {
+                showNotification('Dados copiados para a área de transferência!');
+            }).catch(err => {
+                console.error('Erro ao copiar os dados: ', err);
+            });
+        }
+        
+        function limparCampos(formId) {
+            const form = document.getElementById(formId);
+            const inputs = form.querySelectorAll('input');
+            
+            inputs.forEach(input => {
+                if (input.defaultValue === '') {
+                    input.value = '';
+                } else {
+                    input.value = input.defaultValue;
+                }
+            });
+        }
+        
+        function copiarMensagem(mensagem) {
+            navigator.clipboard.writeText(mensagem).then(() => {
+                showNotification('Mensagem copiada para a área de transferência!');
+            }).catch(err => {
+                console.error('Erro ao copiar a mensagem: ', err);
+            });
+        }
+
+        document.addEventListener('click', hideNotification);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Script de atendimentos Liberação técnica</h1>
+        
+        <div class="form-section" id="interno">
+            <h2>Interno</h2>
+            <p class="message">Certo tudo correto, vou enviar a validação.</p>
+            <form>
+                <label>Protocolo:</label>
+                <input type="text" name="protocolo">
+                
+                <label>Instalação e lacre ONU:</label>
+                <input type="text" name="instalacao_lacre_onu" value="OK">
+                
+                <label>Acesso ao roteador:</label>
+                <input type="text" name="acesso_roteador" value="OK">
+                
+                <label>User:</label>
+                <input type="text" name="user">
+                
+                <label>Senha:</label>
+                <input type="password" name="senha">
+                
+                <label>Sinal - Conector Interno:</label>
+                <input type="text" name="sinal_conector_interno">
+                
+                <label>Sinal - ONU:</label>
+                <input type="text" name="sinal_onu">
+                
+                <label>Equipamentos:</label>
+                <input type="text" name="equipamentos" value="OK">
+                
+                <label>Pat. ONU:</label>
+                <input type="text" name="pat_onu">
+                
+                <label>Pat. Roteador:</label>
+                <input type="text" name="pat_roteador">
+                
+                <label>Pat. Repetidor:</label>
+                <input type="text" name="pat_repetidor">
+                
+                <label>Pat. Equipamento retirado:</label>
+                <input type="text" name="pat_equipamento_retirado">
+                
+                <label>Teste:</label>
+                <input type="text" name="teste" value="OK">
+                
+                <hr>
+                
+                <button type="button" onclick="copiarDados('interno', 'Certo tudo correto, vou enviar a validação.', 'Ajudo em algo mais?')">Copiar Tudo</button>
+                <button type="button" onclick="limparCampos('interno')">Limpar Campos</button>
+            </form>
+            <p>Ajudo em algo mais?</p>
+        </div>
+        
+        <div class="form-section" id="externo">
+            <h2>Externo</h2>
+            <p class="message">Certo tudo correto, vou enviar a validação.</p>
+            <form>
+                <label>Protocolo:</label>
+                <input type="text" name="protocolo">
+                
+                <label>Instalação e lacre ONU:</label>
+                <input type="text" name="instalacao_lacre_onu" value="OK">
+                
+                <label>Acesso ao roteador:</label>
+                <input type="text" name="acesso_roteador" value="OK">
+                
+                <label>Documentação GEOGRID:</label>
+                <input type="text" name="documentacao_geogrid" value="OK">
+                
+                <label>Identificação CTO:</label>
+                <input type="text" name="identificacao_cto">
+                
+                <label>Porta:</label>
+                <input type="text" name="porta">
+                
+                <label>Usuário:</label>
+                <input type="text" name="usuario">
+                
+                <label>Senha:</label>
+                <input type="password" name="senha">
+                
+                <label>Equipamentos:</label>
+                <input type="text" name="equipamentos" value="OK">
+                
+                <label>Sinal - Conector Externo:</label>
+                <input type="text" name="sinal_conector_externo">
+                
+                <label>Sinal - Conector Interno:</label>
+                <input type="text" name="sinal_conector_interno">
+                
+                <label>Sinal - ONU:</label>
+                <input type="text" name="sinal_onu">
+                
+                <label>Pat. ONU:</label>
+                <input type="text" name="pat_onu">
+                
+                <label>Pat. Roteador:</label>
+                <input type="text" name="pat_roteador">
+                
+                <label>Pat. Repetidor:</label>
+                <input type="text" name="pat_repetidor">
+                
+                <label>Pat. Equipamento retirado:</label>
+                <input type="text" name="pat_equipamento_retirado">
+                
+                <label>Teste:</label>
+                <input type="text" name="teste" value="OK">
+                
+                <label>OBS:</label>
+                <input type="text" name="obs">
+                
+                <hr>
+                
+                <button type="button" onclick="copiarDados('externo', 'Certo tudo correto, vou enviar a validação.', 'Ajudo em algo mais?')">Copiar Tudo</button>
+                <button type="button" onclick="limparCampos('externo')">Limpar Campos</button>
+            </form>
+            <p>Ajudo em algo mais?</p>
+        </div>
+
+        <div class="form-section" id="remocao">
+            <h2>Remoção de Porta - Mudança de Endereço</h2>
+            <form>
+                <label>Código:</label>
+                <input type="text" name="codigo">
+                
+                <label>Nome do Cliente:</label>
+                <input type="text" name="nome_cliente">
+                
+                <label>Antigo Ponto de Acesso:</label>
+                <input type="text" name="antigo_ponto_acesso">
+                
+                <label>Porta:</label>
+                <input type="text" name="porta">
+                
+                <label>Localização CTO:</label>
+                <input type="text" name="localizacao_cto">
+                
+                <hr>
+                
+                <button type="button" onclick="copiarDados('remocao', '', '')">Copiar Tudo</button>
+                <button type="button" onclick="limparCampos('remocao')">Limpar Campos</button>
+            </form>
+            <div class="message-area">
+                <button type="button" class="copy-button" onclick="copiarMensagem('Bom dia, Sou o atendente Denison, vou ser responsável pelo seu atendimento.')">Bom dia, Sou o atendente Denison, vou ser responsável pelo seu atendimento.</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Boa tarde, Sou o atendente Denison, vou ser responsável pelo seu atendimento.')">Boa tarde, Sou o atendente Denison, vou ser responsável pelo seu atendimento.</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('É o cliente “nome do cliente”?')">É o cliente “nome do cliente”?</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Qual foi a tratativa realizada no local?')">Qual foi a tratativa realizada no local?</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Preciso de uma foto mais ampla, mostrando o cômodo onde estão instalados os equipamentos')">Preciso de uma foto mais ampla, mostrando o cômodo onde estão instalados os equipamentos</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('As fotos foram validadas')">As fotos foram validadas</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Já realizei as movimentações.')">Já realizei as movimentações.</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Movimentações ok')">Movimentações ok</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('O cliente testou a conexão?')">O cliente testou a conexão?</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Obrigado, bom trabalho! 🫡')">Obrigado, bom trabalho! 🫡</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Por nada, bom trabalho! 🫡')">Por nada, bom trabalho! 🫡</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Maravilha, bom trabalho! 🫡')">Maravilha, bom trabalho! 🫡</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Agradeço seu contato, tenha um bom dia! 🫡')">Agradeço seu contato, tenha um bom dia! 🫡</button>
+            </div>
+        </div>
+    </div>
+    <div id="notification" class="notification"></div>
+</body>
+</html>
