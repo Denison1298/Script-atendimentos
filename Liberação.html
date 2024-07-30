@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Script de atendimentos Liberação técnica</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 400px;
+            margin: 100px auto;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        .login-container label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 20px;
+        }
+        .form-section {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 20px;
+            box-sizing: border-box;
+        }
+        .form-section hr {
+            margin: 20px 0;
+        }
+        .form-section button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .form-section button:hover {
+            background-color: #0056b3;
+        }
+        .form-section button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .message {
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .message-area {
+            margin: 20px 0;
+        }
+        .message-area textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .message-area .copy-button {
+            display: block;
+            margin-top: 5px;
+        }
+        .logout-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            margin: 20px 0;
+        }
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container" id="login-container">
+        <h2>Login</h2>
+        <div id="error-message" class="error-message"></div>
+        <form onsubmit="login(event)">
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Login</button>
+        </form>
+    </div>
+    <div class="container" id="main-container" style="display:none;">
+        <h1>Script de atendimentos Liberação técnica</h1>
+        
+        <button class="logout-button" onclick="logout()">Sair</button>
+        
+        <div class="form-section" id="interno">
+            <h2>Interno</h2>
+            <p class="message">Certo tudo correto, vou enviar a validação.</p>
+            <form>
+                <label>Protocolo:</label>
+                <input type="text" name="protocolo" placeholder="Digite o protocolo">
+                
+                <label>Instalação e lacre ONU:</label>
+                <input type="text" name="instalacao_lacre_onu" value="OK">
+                
+                <label>Acesso ao roteador:</label>
+                <input type="text" name="acesso_roteador" value="OK">
+                
+                <label>User:</label>
+                <input type="text" name="user" placeholder="Digite o usuário">
+                
+                <label>Senha:</label>
+                <input type="password" name="senha" placeholder="Digite a senha">
+                
+                <label>Sinal - Conector Interno:</label>
+                <input type="text" name="sinal_conector_interno" placeholder="Digite o sinal do conector interno">
+                
+                <label>Sinal - ONU:</label>
+                <input type="text" name="sinal_onu" placeholder="Digite o sinal da ONU">
+                
+                <label>Equipamentos:</label>
+                <input type="text" name="equipamentos" value="OK">
+                
+                <label>Pat. ONU:</label>
+                <input type="text" name="pat_onu" placeholder="Digite o patrimônio da ONU">
+                
+                <label>Pat. Roteador:</label>
+                <input type="text" name="pat_roteador" placeholder="Digite o patrimônio do roteador">
+                
+                <label>Pat. Repetidor:</label>
+                <input type="text" name="pat_repetidor" placeholder="Digite o patrimônio do repetidor">
+                
+                <label>Pat. Equipamento retirado:</label>
+                <input type="text" name="pat_equipamento_retirado" placeholder="Digite o patrimônio do equipamento retirado">
+                
+                <label>Teste:</label>
+                <input type="text" name="teste" value="OK">
+                
+                <hr>
+                
+                <button type="button" onclick="copiarDados('interno', 'Certo tudo correto, vou enviar a validação.', 'Ajudo em algo mais?')">Copiar Tudo</button>
+                <button type="button" onclick="limparCampos('interno')">Limpar Campos</button>
+            </form>
+            <p>Ajudo em algo mais?</p>
+        </div>
+        
+        <div class="form-section" id="externo">
+            <h2>Externo</h2>
+            <p class="message">Certo tudo correto, vou enviar a validação.</p>
+            <form>
+                <label>Protocolo:</label>
+                <input type="text" name="protocolo" placeholder="Digite o protocolo">
+                
+                <label>Sinal - Conector externo:</label>
+                <input type="text" name="sinal_conector_externo" placeholder="Digite o sinal do conector externo">
+                
+                <label>Cto:</label>
+                <input type="text" name="cto" placeholder="Digite a CTO">
+                
+                <label>Porta:</label>
+                <input type="text" name="porta" placeholder="Digite a porta">
+                
+                <label>Patchcord:</label>
+                <input type="text" name="patchcord" placeholder="Digite o patchcord">
+                
+                <label>Cto Anterior:</label>
+                <input type="text" name="cto_anterior" placeholder="Digite a CTO anterior">
+                
+                <label>Porta Anterior:</label>
+                <input type="text" name="porta_anterior" placeholder="Digite a porta anterior">
+                
+                <label>Endereço Anterior:</label>
+                <input type="text" name="endereco_anterior" placeholder="Digite o endereço anterior">
+                
+                <label>Fibra Anterior:</label>
+                <input type="text" name="fibra_anterior" placeholder="Digite a fibra anterior">
+                
+                <label>Patrimônio da CTO:</label>
+                <input type="text" name="patrimonio_cto" placeholder="Digite o patrimônio da CTO">
+                
+                <label>Caixa de emenda:</label>
+                <input type="text" name="caixa_emenda" placeholder="Digite a caixa de emenda">
+                
+                <hr>
+                
+                <button type="button" onclick="copiarDados('externo', 'Certo tudo correto, vou enviar a validação.', 'Ajudo em algo mais?')">Copiar Tudo</button>
+                <button type="button" onclick="limparCampos('externo')">Limpar Campos</button>
+            </form>
+            <p>Ajudo em algo mais?</p>
+        </div>
+        
+        <div class="form-section" id="remocao">
+            <h2>Remoção</h2>
+            <form>
+                <label>Nome do Cliente:</label>
+                <input type="text" name="nome_cliente" placeholder="Digite o nome do cliente">
+                
+                <label>Antigo Ponto de Acesso:</label>
+                <input type="text" name="antigo_ponto_acesso" placeholder="Digite o antigo ponto de acesso">
+                
+                <label>Porta:</label>
+                <input type="text" name="porta" placeholder="Digite a porta">
+                
+                <label>Localização CTO:</label>
+                <input type="text" name="localizacao_cto" placeholder="Digite a localização CTO">
+                
+                <hr>
+                
+                <button type="button" onclick="copiarDados('remocao', '', '')">Copiar Tudo</button>
+                <button type="button" onclick="limparCampos('remocao')">Limpar Campos</button>
+            </form>
+            <div class="message-area">
+                <button type="button" class="copy-button" onclick="copiarMensagem('Bom dia, Sou o atendente Denison, vou ser responsável pelo seu atendimento.')">Bom dia, Sou o atendente Denison, vou ser responsável pelo seu atendimento.</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Boa tarde, Sou o atendente Denison, vou ser responsável pelo seu atendimento.')">Boa tarde, Sou o atendente Denison, vou ser responsável pelo seu atendimento.</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('É o cliente “nome do cliente”?')">É o cliente “nome do cliente”?</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Qual foi a tratativa realizada no local?')">Qual foi a tratativa realizada no local?</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Preciso de uma foto mais ampla, mostrando o cômodo onde estão instalados os equipamentos')">Preciso de uma foto mais ampla, mostrando o cômodo onde estão instalados os equipamentos</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('As fotos foram validadas')">As fotos foram validadas</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Já realizei as movimentações.')">Já realizei as movimentações.</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Movimentações ok')">Movimentações ok</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('O cliente testou a conexão?')">O cliente testou a conexão?</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Obrigado, bom trabalho! 🫡')">Obrigado, bom trabalho! 🫡</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Por nada, bom trabalho! 🫡')">Por nada, bom trabalho! 🫡</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Maravilha, bom trabalho! 🫡')">Maravilha, bom trabalho! 🫡</button>
+                <button type="button" class="copy-button" onclick="copiarMensagem('Agradeço seu contato, tenha um bom dia! 🫡')">Agradeço seu contato, tenha um bom dia! 🫡</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const usuarios = {
+            'Denison': '010203',
+            'teste': '010203'
+        };
+
+        function login(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+
+            if (usuarios[username] === password) {
+                localStorage.setItem('loggedInUser', username);
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('main-container').style.display = 'block';
+                
+                // Controla os botões com base no usuário
+                const isEditor = username === 'Denison';
+                document.querySelectorAll('.form-section button').forEach(button => {
+                    button.disabled = !isEditor;
+                });
+                
+                // Preencher campos com valores salvos
+                preencherCampos();
+                
+            } else {
+                errorMessage.textContent = 'Usuário ou senha inválidos.';
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedInUser');
+            document.getElementById('login-container').style.display = 'block';
+            document.getElementById('main-container').style.display = 'none';
+        }
+
+        function copiarDados(sectionId, validationMessage, helpMessage) {
+            const section = document.getElementById(sectionId);
+            const inputs = section.querySelectorAll('input');
+            let data = validationMessage + '\n';
+            inputs.forEach(input => {
+                data += `${input.previousElementSibling.textContent} ${input.value}\n`;
+            });
+            data += helpMessage;
+            copyToClipboard(data);
+        }
+
+        function limparCampos(sectionId) {
+            const section = document.getElementById(sectionId);
+            const inputs = section.querySelectorAll('input');
+            inputs.forEach(input => {
+                if (input.value !== 'OK') {
+                    input.value = '';
+                }
+            });
+        }
+
+        function copiarMensagem(message) {
+            copyToClipboard(message);
+        }
+
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+            alert('Texto copiado para a área de transferência!');
+        }
+
+        function preencherCampos() {
+            const sections = ['interno', 'externo', 'remocao'];
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                const inputs = section.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const savedValue = localStorage.getItem(`${sectionId}-${input.name}`);
+                    if (savedValue !== null) {
+                        input.value = savedValue;
+                    }
+                });
+            });
+        }
+
+        function salvarCampos() {
+            const sections = ['interno', 'externo', 'remocao'];
+            sections.forEach(sectionId => {
+                const section = document.getElementById(sectionId);
+                const inputs = section.querySelectorAll('input');
+                inputs.forEach(input => {
+                    localStorage.setItem(`${sectionId}-${input.name}`, input.value);
+                });
+            });
+        }
+
+        function verificarLogin() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            if (loggedInUser) {
+                document.getElementById('login-container').style.display = 'none';
+                document.getElementById('main-container').style.display = 'block';
+                
+                // Controla os botões com base no usuário
+                const isEditor = loggedInUser === 'Denison';
+                document.querySelectorAll('.form-section button').forEach(button => {
+                    button.disabled = !isEditor;
+                });
+                
+                // Preencher campos com valores salvos
+                preencherCampos();
+            }
+        }
+
+        window.addEventListener('beforeunload', salvarCampos);
+        document.addEventListener('DOMContentLoaded', verificarLogin);
+    </script>
+</body>
+</html>
